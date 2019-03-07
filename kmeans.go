@@ -1,10 +1,9 @@
 // kmeans is a package to calculate k-means clustering
-// This package implements both sequential and non-sequential functions
-// so you can calculate k-means from either batch or stream of data
+// This package implements sequential functions
+// so you can calculate k-means from stream of data
 package kmeans
 
 import(
-//	"fmt"
 	"math"
 	"math/rand"
 	"errors"
@@ -32,7 +31,7 @@ type Distance func(Node, Node) float64
 
 // Sum sums two vectors
 func (n Node) Add(o Node) Node {
-	r := Node{}
+	r := make([]float64, len(n))
 	for i, j := range o {
 		r[i] = n[i]+j
 	}
@@ -41,7 +40,7 @@ func (n Node) Add(o Node) Node {
 
 // Sub subtracts two vectors
 func (n Node) Sub(o Node) Node {
-	r := Node{}
+	r := make([]float64, len(n))
 	for i, j := range o {
 		r[i] = n[i]-j
 	}
@@ -50,14 +49,13 @@ func (n Node) Sub(o Node) Node {
 
 // Mul multiplicates a vector with a scalar
 func (n Node) Mul(s float64) Node {
-	r := Node{}
+	r := make([]float64, len(n))
 	for i := range n {
 		r[i] = n[i]*s
 	}
 	return r
 }
 
-//
 func New(k int, d Distance, a float64) (Kmeans) {
 	return Kmeans{make([]Cluster, k), k, d, a}
 }
